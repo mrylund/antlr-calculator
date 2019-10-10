@@ -22,13 +22,14 @@ class Interpreter extends AbstractParseTreeVisitor<Double> implements simpleCalc
       if (ctx.e != null) {
         return visit(ctx.e);
       } else if (ctx.f != null) {
-        return visit(ctx.c);
+        return visit(ctx.f);
       } else if (ctx.l != null) {
-
+        return visit(ctx.l);
       } else if (ctx.c != null) {
         return visit(ctx.c);
+      } else {
+        return null;
       }
-      return null;
     }
 
     public Double visitParenthesis(simpleCalcParser.ParenthesisContext ctx){
@@ -78,44 +79,39 @@ class Interpreter extends AbstractParseTreeVisitor<Double> implements simpleCalc
       return null;
     };
 
-    public Double visitOrstatement(simpleCalcParser.OrstatementContext ctx) {
-      return null;
-    }
-
     public Double visitLoop(simpleCalcParser.LoopContext ctx) {
       return null;
     }
 
     public Double visitGRETEREQ(simpleCalcParser.GRETEREQContext ctx) {
-      return null;
+      return (visit(ctx.e1) >= visit(ctx.e2)) ? 1.0 : 0.0;
     }
 
     public Double visitOR(simpleCalcParser.ORContext ctx) {
-      return null;
+      return (visit(ctx.c1) == 1.0 || visit(ctx.c2) == 1.0) ? 1.0 : 0.0;
     }
 
     public Double visitEQUALS(simpleCalcParser.EQUALSContext ctx) {
-      return null;
+      return (visit(ctx.e1) == visit(ctx.e2)) ? 1.0 : 0.0;
     }
 
     public Double visitLESSEQ(simpleCalcParser.LESSEQContext ctx) {
-      return null;
+      return (visit(ctx.e1) <= visit(ctx.e2)) ? 1.0 : 0.0;
     }
 
     public Double visitAND(simpleCalcParser.ANDContext ctx) {
-      return null;
+      return (visit(ctx.c1) == 1.0 && visit(ctx.c2) == 1.0) ? 1.0 : 0.0;
     }
 
     public Double visitGREATER(simpleCalcParser.GREATERContext ctx){
-      return null;
+      return (visit(ctx.e1) > visit(ctx.e2)) ? 1.0 : 0.0;
     }
 
     public Double visitLESS(simpleCalcParser.LESSContext ctx){
-      return null;
+      return (visit(ctx.e1) < visit(ctx.e2)) ? 1.0 : 0.0;
     }
 
     public Double visitNOTEQ(simpleCalcParser.NOTEQContext ctx) {
-
       return !visit(ctx.e1).equals(visit(ctx.e2)) ? 1.0 : 0.0;
     };
 
