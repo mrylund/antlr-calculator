@@ -2,7 +2,7 @@ grammar simpleCalc;
 
 start   :  prog=program EOF ;
 
-program : (as+=assign)* (e=expression | d=ifstatement | l=loop)*;
+program : (as+=assign)* (e=expression | f=ifstatement | l=loop | c=condition)*;
 
 assign : x=ID '=' e=expression;
 
@@ -10,7 +10,7 @@ assign : x=ID '=' e=expression;
 
 expression : x=ID    	              		# Variable
      | c=FLOAT	              				# Constant
-     | e1=expression '*' e2=expression    	# Multiplication 
+     | e1=expression '*' e2=expression    	# Multiplication
      | e1=expression '/' e2=expression	  	# Division
      | e1=expression op=OP e2=expression  	# Addition
      | '(' e=expression ')'	      			# Parenthesis
@@ -18,9 +18,9 @@ expression : x=ID    	              		# Variable
      | e1=expression op=OR e2=expression  	# orstatement
 ;
 
-ifstatement : 'if' '(' (condition)+ ')' '{' program '}' 
-				(('elseif' | 'else if') '(' (condition)+ ')' '{' program '}')*
-				 'else' '{' program '}';
+ifstatement : 'if' '(' (c1=condition)+ ')' '{' p1=program '}'
+				(('elseif' | 'else if') '(' (c2+=condition)+ ')' '{' p2+=program '}')*
+				 'else' '{' p3=program '}';
 
 loop : 'while' '(' (condition)+ ')' '{' program '}';
 
